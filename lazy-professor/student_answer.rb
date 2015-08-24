@@ -1,17 +1,8 @@
 class StudentAnswer
-  attr_reader :answers
   ELIGIBLE_ANSWERS = %w(A B C D).freeze
 
-  def initialize answers
-    @answers = answers.split('').select! {|a| ELIGIBLE_ANSWERS.include?(a)}
-  end
-
-  def key
-    arr = []
-    answers.each do |a|
-      arr << a
-    end
-    arr
+  def self.key answers
+    answers.split('').select! {|a| ELIGIBLE_ANSWERS.include?(a)}
   end
 end
 
@@ -24,7 +15,7 @@ class KeySheet
 
   def run
     File.foreach(@file) do |line|
-      student_key = StudentAnswer.new(line).key
+      student_key = StudentAnswer.key(line)
 
       student_key.each_with_index do |ans, i|
         answer_collector[i] << ans 
